@@ -1,8 +1,7 @@
 import discord
-from multiprocessing import Process
 from parse import GetGear
 from spreadsheet import FaxRegear
-from discord.ext import commands
+from multiprocessing import Process
 
 faxregear = FaxRegear()
 
@@ -27,12 +26,6 @@ async def on_message(message):
     channel = message.channel
     if message.content.startswith('..hello'):
         await channel.send('Hello!')
-
-    if message.content.startswith('..relog'):
-        @commands.is_owner()
-        async def restartbot(ctx):
-            await ctx.bot.logout()
-            await client.login(bot_token, bot=True)
 
     if message.content.startswith('..URL'):
         await channel.send(faxregear.get_url())
