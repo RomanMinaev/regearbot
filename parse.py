@@ -57,3 +57,11 @@ class GetGear:
 		for i in regearables_urls:
 			package.append(i)
 		return package
+
+	def get_UTC(self):
+		time_find = self.bs.find_all('p')
+		time_chunk = str(time_find[-2])
+		temp_list = time_chunk.split(',')
+		time_smaller_chunk = temp_list[1]
+		UTC_time = time_smaller_chunk.removesuffix('</p>')
+		return UTC_time

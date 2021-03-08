@@ -5,6 +5,7 @@ CREDENTIALS_FILE = 'fax-regear-c42cdf23fca5.json'
 credentials = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_FILE, ['https://www.googleapis.com/auth'
                                                                                   '/spreadsheets',
                                                                                   'https://www.googleapis.com/auth'
+                                         
                                                                                   '/drive'])
 
 
@@ -109,6 +110,39 @@ class FaxRegear:
                     }
                 ]
         }).execute()
+        self.service.spreadsheets().batchUpdate(spreadsheetId=self.spreadsheet['spreadsheetId'], body={
+            "requests":
+                [
+                    {
+                        "repeatCell":
+                            {
+                                "cell":
+                                    {
+                                        "userEnteredFormat":
+                                            {
+                                                "horizontalAlignment": 'CENTER',
+                                                "verticalAlignment": 'MIDDLE',
+                                                'wrapStrategy': 'LEGACY_WRAP',
+                                                "textFormat":
+                                                    {
+                                                        "bold": True,
+                                                        "fontSize": 14
+                                                    }
+                                            }
+                                    },
+                                "range":
+                                    {
+                                        "sheetId": 0,
+                                        "startRowIndex": 0,
+                                        "endRowIndex": 1000,
+                                        "startColumnIndex": 6,
+                                        "endColumnIndex": 7
+                                    },
+                                "fields": "userEnteredFormat"
+                            }
+                    }
+                ]
+        }).execute()
 
     def get_url(self):
         spreadsheetURL = self.spreadsheet['spreadsheetUrl']
@@ -118,7 +152,7 @@ class FaxRegear:
         spreadsheetId = self.spreadsheet['spreadsheetId']
         return spreadsheetId
 
-    def push(self, package):
+    def push(self, package, UTC):
         body_insides = {
             "valueInputOption": 'USER_ENTERED',
             "data": [
@@ -132,4 +166,18 @@ class FaxRegear:
             ]
         }
         self.service.spreadsheets().values().batchUpdate(spreadsheetId=self.spreadsheet['spreadsheetId'], body=body_insides).execute()
+        body_insides = {
+            "valueInputOption": 'USER_ENTERED',
+            "data": [
+                {
+                    "range": f'G{self.count}:G{self.count}',
+                    "majorDimension": "ROWS",
+                    "values": [
+                        [UTC]
+                    ]
+                }
+            ]
+        }
+        self.service.spreadsheets().values().batchUpdate(spreadsheetId=self.spreadsheet['spreadsheetId'],
+                                                         body=body_insides).execute()
         self.count = self.count + 1

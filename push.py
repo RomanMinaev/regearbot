@@ -1,27 +1,36 @@
-from parse import GetGear
-from spreadsheet import FaxRegear
+import requests
+import re
+from bs4 import BeautifulSoup
 
-if message.content.startswith('..play'):  # Guess a word game starts here
-	await channel.send('Игра в виселицу:')
-	current_game = GameLogic()
-	await channel.send(current_game.show_word_pl())
-	# await channel.send(current_game.show_word_op())
-	while True:
-		msg = await client.wait_for('message')
-		if current_game.game_state() or msg.clean_content == '..stop':
-			break
-		if msg.clean_content == '..tries':
-			await channel.send(current_game.fail_count)
-			msg = await client.wait_for('message')
-		reply = current_game.give_answ(msg.clean_content)
-		try:
-			await channel.send(reply)
-		except discord.errors.HTTPException:
-			await channel.send('Какая-то хуйня я хз')
-		await channel.send(current_game.show_word_pl())
-		if current_game.game_state() or msg.clean_content == '..stop':
-			break
 
-	await channel.send('Игра окончена.')
+class GetGear:
+	def __init__(self, kill_id):
+		self.kill_id = kill_id
+		self.item_urls = []
+		self.item_urls_killer = []
+		html = requests.get(f'https://www.albiononline2d.com/en/scoreboard/events/{kill_id}')
+		self.bs = BeautifulSoup(html.text, 'html.parser')
+		bs_div = self.bs.find_all('div', {'class': 'character-slots'}, '#search string')
+		killer_tag = bs_div[0]
+		victim_tag = bs_div[1]
+		for i in victim_tag:
+			obj = re.findall(r'src=\S+', str(i))
+			obj_str = obj[0]
+			self.item_urls.append(obj_str[5:-1])
+		for i in killer_tag:
+			obj = re.findall(r'src=\S+', str(i))
+			obj_str = obj[0]
+			self.item_urls_killer.append(obj_str[5:-1])
 
-	pass
+	def get_bs(self):
+		time_find = self.bs.find_all('p')
+		time_chunk = str(time_find[-2])
+		temp_list = time_chunk.split(',')
+		time_smaller_chunk = temp_list[1]
+		UTC_time = time_smaller_chunk.removesuffix('</p>')
+
+		return UTC_time
+
+
+getgear = GetGear('201833197')
+print(getgear.get_bs())
