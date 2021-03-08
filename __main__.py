@@ -23,6 +23,7 @@ keep_alive.keep_alive()
 
 @client.event
 async def on_message(message):
+    global faxregear
     if message.author == client.user:
         return
 
@@ -33,19 +34,38 @@ async def on_message(message):
     if message.content.startswith('..URL'):
         await channel.send(faxregear.get_url())
 
+    if message.content.startswith('..init'):
+        faxregear = FaxRegear()
+        await message.add_reaction('✅')
     if message.content.startswith('~'):
         await message.add_reaction('🤔')
-        ID = message.content
-        gear = GetGear(ID.replace('~', ''))
-        if __name__ == '__main__':
-            try:
-                action_process = Process(target=faxregear.push(gear.push_package()))
-                action_process.start()
-                action_process.join(timeout=10)
-                action_process.terminate()
-            except IndexError:
-                await message.add_reaction('❌')
-            else:
-                await message.add_reaction('✅')
+        if ',' in message.content:
+            ID_list = message.content.split(',')
+            for ID in ID_list:
+                gear = GetGear(ID.replace('~', ''))
+                if __name__ == '__main__':
+                    try:
+                        action_process = Process(target=faxregear.push(gear.push_package()))
+                        action_process.start()
+                        action_process.join(timeout=10)
+                        action_process.terminate()
+                    except IndexError:
+                        await message.add_reaction('❌')
+                    else:
+                        await message.add_reaction('✅')
+        else:
+            ID = message.content
+            gear = GetGear(ID.replace('~', ''))
+            if __name__ == '__main__':
+                try:
+                    action_process = Process(target=faxregear.push(gear.push_package()))
+                    action_process.start()
+                    action_process.join(timeout=10)
+                    action_process.terminate()
+                except IndexError:
+                    await message.add_reaction('❌')
+                else:
+                    await message.add_reaction('✅')
+
 
 client.run(bot_token)
