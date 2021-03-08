@@ -5,7 +5,6 @@ CREDENTIALS_FILE = 'fax-regear-c42cdf23fca5.json'
 credentials = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_FILE, ['https://www.googleapis.com/auth'
                                                                                   '/spreadsheets',
                                                                                   'https://www.googleapis.com/auth'
-                                         
                                                                                   '/drive'])
 
 

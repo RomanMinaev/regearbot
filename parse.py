@@ -65,3 +65,34 @@ class GetGear:
 		time_smaller_chunk = temp_list[1]
 		UTC_time = time_smaller_chunk[0:-4]
 		return UTC_time
+
+	def get_ip(self):
+		ip_find = self.bs.find_all('h3')
+		content_ip = ip_find[2]
+		dirty_ip_list = re.findall(r'>\S+<', str(content_ip))
+		dirty_ip = dirty_ip_list[0]
+		clean_ip = dirty_ip[1:-1]
+		return int(clean_ip)
+
+
+def itemlist_gear_check(getgear):
+	reglist = getgear.itemlist_regearable()
+	gear_list = []
+	for i in reglist:
+		out = i.split('/')
+		item = out[-1]
+		split_item = item.split('.')
+		itemname = split_item[0]
+		if '@' in itemname:
+			itemname = itemname[0:-2]
+		b_itemname = itemname[3:]
+		gear_list.append(b_itemname)
+	gear_check_list = []
+	for i in gear_list:
+		if 'ARMOR_' in i:
+			gear_check_list.append(i)
+		if '2H_' in i:
+			gear_check_list.append(i)
+		if 'MAIN_' in i:
+			gear_check_list.append(i)
+	return gear_check_list
