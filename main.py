@@ -8,8 +8,8 @@ from parse import itemlist_gear_check
 
 faxregear = FaxRegear()
 
-bot_token_file = open('DISCORD TOKEN.txt', 'r')
-GUILD = 'SuSliK'
+bot_token_file = open('DISCORD TOKEN_production.txt', 'r')
+GUILD = 'Fax'
 bot_token = bot_token_file.readline()
 client = discord.Client()
 
@@ -39,51 +39,52 @@ async def on_message(message):
 
     if message.content.startswith('..init'):
         if discord.utils.get(username.roles, name='Mechanic') is None:
-            await message.add_reaction('❌')
+            await message.add_reaction('<:FPepe:808012844783370270>')
         else:
             faxregear = FaxRegear()
-            await message.add_reaction('✅')
+            await message.add_reaction('<:Godbless:808014107789754369>')
 
     if message.content.startswith('`'):
-        await message.add_reaction('🤔')
+        await message.add_reaction('<:Hmm:808011754029318225>')
         if ',' in message.content:
             ID_list = message.content.split(',')
             for ID in ID_list:
                 try:
                     gear = GetGear(ID.replace('`', ''))
                 except IndexError:
-                    await message.add_reaction('❌')
+                    await message.add_reaction('<:FPepe:808012844783370270>')
                 else:
                     if gear.get_ip() < 1300:
-                        await message.add_reaction('😂')
+                        await message.add_reaction('<:Yikes:808013096215511084>')
                     else:
                         gear_check = itemlist_gear_check(gear)
                         if gear_check[1] in ARMOR_list and gear_check[0] in H_list:
                             if __name__ == '__main__':
                                 faxregear.push(gear.push_package(), gear.get_UTC())
+                                await message.add_reaction('<:Godbless:808014107789754369>')
                             if gear_check[1] not in ARMOR_list:
-                                await message.add_reaction('😐')
+                                await message.add_reaction('<:Nope:816695559653818390>')
                             if gear_check[0] not in H_list:
-                                await message.add_reaction('😡')  # 😂
+                                await message.add_reaction('<:Sayad:808011258006863903>')  # 😂
 
         else:
             ID = message.content
             try:
                 gear = GetGear(ID.replace('`', ''))
             except IndexError:
-                await message.add_reaction('❌')
+                await message.add_reaction('<:FPepe:808012844783370270>')
             else:
                 if gear.get_ip() < 1300:
-                    await message.add_reaction('😂')
+                    await message.add_reaction('<:Yikes:808013096215511084>')
                 else:
                     gear_check = itemlist_gear_check(gear)
                     if gear_check[1] in ARMOR_list and gear_check[0] in H_list:
                         if __name__ == '__main__':
                             faxregear.push(gear.push_package(), gear.get_UTC())
-                            await message.add_reaction('✅')
+                            await message.add_reaction('<:Godbless:808014107789754369>')
                     if gear_check[1] not in ARMOR_list:
-                        await message.add_reaction('😐')
+                        await message.add_reaction('<:Nope:816695559653818390>')
                     if gear_check[0] not in H_list:
-                        await message.add_reaction('😡')
+                        await message.add_reaction('<:Sayad:808011258006863903>')
 
 client.run(bot_token)
