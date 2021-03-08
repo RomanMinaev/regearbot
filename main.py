@@ -5,6 +5,7 @@ import keep_alive
 from zvzbuilddict import ARMOR_list
 from zvzbuilddict import H_list
 from parse import itemlist_gear_check
+from help_msg import help_msg
 
 faxregear = FaxRegear()
 
@@ -33,6 +34,9 @@ async def on_message(message):
     channel = message.channel
     if message.content.startswith('..hello'):
         await channel.send('Hello!')
+
+    if message.content.startswith('..help'):
+        await channel.send(help_msg)
 
     if message.content.startswith('..URL'):
         await channel.send(faxregear.get_url())
