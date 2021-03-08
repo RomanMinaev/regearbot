@@ -2,6 +2,7 @@ import discord
 from parse import GetGear
 from spreadsheet import FaxRegear
 from multiprocessing import Process
+import keep_alive
 
 faxregear = FaxRegear()
 
@@ -17,6 +18,7 @@ async def on_ready():
     print(
         f'{client.user} is connected to {guild.name} (id: {guild.id})')
 
+keep_alive.keep_alive()
 
 @client.event
 async def on_message(message):
