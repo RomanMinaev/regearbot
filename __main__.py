@@ -28,13 +28,13 @@ async def on_message(message):
         return
 
     channel = message.channel
-    if message.content.startswith('...hello'):
+    if message.content.startswith('..hello'):
         await channel.send('Hello!')
 
-    if message.content.startswith('...URL'):
+    if message.content.startswith('..URL'):
         await channel.send(faxregear.get_url())
 
-    if message.content.startswith('...init'):
+    if message.content.startswith('..init'):
         faxregear = FaxRegear()
         await message.add_reaction('✅')
 
