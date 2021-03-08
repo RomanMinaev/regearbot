@@ -24,6 +24,7 @@ keep_alive.keep_alive()
 @client.event
 async def on_message(message):
     global faxregear
+    username = message.author
     if message.author == client.user:
         return
 
@@ -35,8 +36,11 @@ async def on_message(message):
         await channel.send(faxregear.get_url())
 
     if message.content.startswith('..init'):
-        faxregear = FaxRegear()
-        await message.add_reaction('✅')
+        if discord.utils.get(username.roles, name='Mechanic') is None:
+            await message.add_reaction('❌')
+        else:
+            faxregear = FaxRegear()
+            await message.add_reaction('✅')
 
     if message.content.startswith('`'):
         await message.add_reaction('🤔')
