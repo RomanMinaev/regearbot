@@ -1,7 +1,7 @@
 from googleapiclient import discovery
 from oauth2client.service_account import ServiceAccountCredentials
 
-CREDENTIALS_FILE = 'fax-regear-e746f082262e.json'
+CREDENTIALS_FILE = 'fax-regear-c42cdf23fca5.json'
 credentials = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_FILE, ['https://www.googleapis.com/auth'
                                                                                   '/spreadsheets',
                                                                                   'https://www.googleapis.com/auth'
