@@ -20,6 +20,7 @@ async def on_ready():
 
 keep_alive.keep_alive()
 
+
 @client.event
 async def on_message(message):
     if message.author == client.user:
