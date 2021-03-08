@@ -27,7 +27,7 @@ class GetGear:
 		time_chunk = str(time_find[-2])
 		temp_list = time_chunk.split(',')
 		time_smaller_chunk = temp_list[1]
-		UTC_time = time_smaller_chunk.removesuffix('</p>')
+		UTC_time = time_smaller_chunk[0:-4]
 
 		return UTC_time
 
