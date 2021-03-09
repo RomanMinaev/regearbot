@@ -81,7 +81,7 @@ async def on_message(message):
                     gear_check = itemlist_gear_check(gear)
                     if True:  # gear_check[1] in ARMOR_list and gear_check[0] in H_list:
                         if __name__ == '__main__':
-                            faxregear.push(gear.push_package(), gear.get_UTC(), gear.get_ip(), gear.get_link())
+                            faxregear.push(gear.push_package(), gear.get_UTC(), gear.get_ip(), f'=HYPERLINK("gear.get_link()","AO2D")')
                             await message.add_reaction('<:Godbless:808014107789754369>')
                     if gear_check[1] not in ARMOR_list:
                         await message.add_reaction('<:Nope:816695559653818390>')
