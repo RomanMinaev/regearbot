@@ -59,7 +59,7 @@ async def on_message(message):
                         await message.add_reaction('<:Yikes:808013096215511084>')
                     else:
                         gear_check = itemlist_gear_check(gear)
-                        if gear_check[1] in ARMOR_list and gear_check[0] in H_list:
+                        if True: # gear_check[1] in ARMOR_list and gear_check[0] in H_list:
                             if __name__ == '__main__':
                                 faxregear.push(gear.push_package(), gear.get_UTC())
                                 await message.add_reaction('<:Godbless:808014107789754369>')
@@ -79,7 +79,7 @@ async def on_message(message):
                     await message.add_reaction('<:Yikes:808013096215511084>')
                 else:
                     gear_check = itemlist_gear_check(gear)
-                    if gear_check[1] in ARMOR_list and gear_check[0] in H_list:
+                    if True: # gear_check[1] in ARMOR_list and gear_check[0] in H_list:
                         if __name__ == '__main__':
                             faxregear.push(gear.push_package(), gear.get_UTC())
                             await message.add_reaction('<:Godbless:808014107789754369>')
