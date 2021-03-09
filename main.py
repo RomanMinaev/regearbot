@@ -45,13 +45,13 @@ async def on_message(message):
             faxregear = FaxRegear()
             await message.add_reaction('<:Godbless:808014107789754369>')
 
-    if message.content.startswith('='):
+    if message.content.startswith('!'):
         await message.add_reaction('<:Hmm:808011754029318225>')
         if ',' in message.content:
             ID_list = message.content.split(',')
             for ID in ID_list:
                 try:
-                    gear = GetGear(ID.replace('=', ''))
+                    gear = GetGear(ID.replace('!', ''))
                 except IndexError:
                     await message.add_reaction('<:FPepe:808012844783370270>')
                 else:
@@ -71,7 +71,7 @@ async def on_message(message):
         else:
             ID = message.content
             try:
-                gear = GetGear(ID.replace('=', ''))
+                gear = GetGear(ID.replace('!', ''))
             except IndexError:
                 await message.add_reaction('<:FPepe:808012844783370270>')
             else:
