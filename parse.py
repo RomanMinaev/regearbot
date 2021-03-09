@@ -17,11 +17,11 @@ class GetGear:
 		for i in victim_tag:
 			obj = re.findall(r'src=\S+', str(i))
 			obj_str = obj[0]
-			self.item_urls.append(obj_str[5:-1])
+			self.item_urls.append(re.sub('(?<=&)a\S+;', '', obj_str[5:-1]))
 		for i in killer_tag:
 			obj = re.findall(r'src=\S+', str(i))
 			obj_str = obj[0]
-			self.item_urls_killer.append(obj_str[5:-1])
+			self.item_urls_killer.append(re.sub('(?<=&)a\S+;', '', obj_str[5:-1]))
 
 	def title(self):
 		return self.bs.title.string[0:-27]

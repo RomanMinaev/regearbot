@@ -16,11 +16,11 @@ class GetGear:
 		for i in victim_tag:
 			obj = re.findall(r'src=\S+', str(i))
 			obj_str = obj[0]
-			self.item_urls.append(obj_str[5:-1])
+			self.item_urls.append(re.sub('(?<=&)a\S+;', '', obj_str[5:-1]))
 		for i in killer_tag:
 			obj = re.findall(r'src=\S+', str(i))
 			obj_str = obj[0]
-			self.item_urls_killer.append(obj_str[5:-1])
+			self.item_urls_killer.append(re.sub('(?<=&)a\S+;', '', obj_str[5:-1]))
 
 	def get_UTC(self):
 		time_find = self.bs.find_all('p')
@@ -75,5 +75,6 @@ def itemlist_gear_check(getgear):
 getgear1 = GetGear('201833197')
 
 
-print(getgear1.get_ip())
-print(type(getgear1.get_ip()))
+print(getgear1.item_urls)
+print()
+print(getgear1.item_urls_killer)
