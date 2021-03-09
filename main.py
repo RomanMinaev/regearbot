@@ -8,7 +8,7 @@ from help_msg import help_msg
 
 faxregear = FaxRegear()
 
-bot_token_file = open('DISCORD TOKEN_production.txt.txt', 'r')  # TODO: change to _production
+bot_token_file = open('DISCORD TOKEN_production.txt', 'r')  # TODO: change to _production
 GUILD = 'Fax'  # TODO: change to Fax
 bot_token = bot_token_file.readline()
 client = discord.Client()
