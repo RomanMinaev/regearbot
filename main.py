@@ -1,14 +1,12 @@
 import discord
 from parse import GetGear
 from spreadsheet import FaxRegear
-import never_sleep
 from zvzbuilddict import ARMOR_list
 from zvzbuilddict import H_list
 from parse import itemlist_gear_check
 from help_msg import help_msg
 
 faxregear = FaxRegear()
-never_sleep.awake('https://repl.it/@RomanMinaev/regearbot', False)
 
 bot_token_file = open('DISCORD TOKEN_production.txt', 'r')
 GUILD = 'Fax'
