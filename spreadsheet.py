@@ -135,7 +135,7 @@ class FaxRegear:
                                         "startRowIndex": 0,
                                         "endRowIndex": 1000,
                                         "startColumnIndex": 6,
-                                        "endColumnIndex": 8
+                                        "endColumnIndex": 9
                                     },
                                 "fields": "userEnteredFormat"
                             }
