@@ -197,7 +197,7 @@ class FaxRegear:
             "valueInputOption": 'USER_ENTERED',
             "data": [
                 {
-                    "range": f'H{self.count}:H{self.count}',
+                    "range": f'I{self.count}:I{self.count}',
                     "majorDimension": "ROWS",
                     "values": [
                         [LINK]
