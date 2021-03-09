@@ -18,7 +18,7 @@ class FaxRegear:
             'sheets': [{'properties': {'sheetType': 'GRID',
                                        'sheetId': 0,
                                        'title': 'GOD BLESS',
-                                       'gridProperties': {'hideGridlines': False, 'rowCount': 1000, 'columnCount': 7}}}]
+                                       'gridProperties': {'hideGridlines': False, 'rowCount': 1000, 'columnCount': 9}}}]
         }
         self.spreadsheet = self.service.spreadsheets().create(body=spreadsheet_body).execute()
         driveService = discovery.build('drive', 'v3', credentials=credentials)
@@ -135,7 +135,7 @@ class FaxRegear:
                                         "startRowIndex": 0,
                                         "endRowIndex": 1000,
                                         "startColumnIndex": 6,
-                                        "endColumnIndex": 7
+                                        "endColumnIndex": 8
                                     },
                                 "fields": "userEnteredFormat"
                             }
@@ -151,7 +151,7 @@ class FaxRegear:
         spreadsheetId = self.spreadsheet['spreadsheetId']
         return spreadsheetId
 
-    def push(self, package, UTC):
+    def push(self, package, UTC, IP, LINK):  # TODO: nothing to do, just a mark
         body_insides = {
             "valueInputOption": 'USER_ENTERED',
             "data": [
@@ -165,7 +165,7 @@ class FaxRegear:
             ]
         }
         self.service.spreadsheets().values().batchUpdate(spreadsheetId=self.spreadsheet['spreadsheetId'], body=body_insides).execute()
-        body_insides = {
+        body_insides_UTC = {
             "valueInputOption": 'USER_ENTERED',
             "data": [
                 {
@@ -178,5 +178,33 @@ class FaxRegear:
             ]
         }
         self.service.spreadsheets().values().batchUpdate(spreadsheetId=self.spreadsheet['spreadsheetId'],
-                                                         body=body_insides).execute()
+                                                         body=body_insides_UTC).execute()
+        body_insides_IP = {
+            "valueInputOption": 'USER_ENTERED',
+            "data": [
+                {
+                    "range": f'H{self.count}:H{self.count}',
+                    "majorDimension": "ROWS",
+                    "values": [
+                        [IP]
+                    ]
+                }
+            ]
+        }
+        self.service.spreadsheets().values().batchUpdate(spreadsheetId=self.spreadsheet['spreadsheetId'],
+                                                         body=body_insides_IP).execute()
+        body_insides_LINK = {
+            "valueInputOption": 'USER_ENTERED',
+            "data": [
+                {
+                    "range": f'H{self.count}:H{self.count}',
+                    "majorDimension": "ROWS",
+                    "values": [
+                        [LINK]
+                    ]
+                }
+            ]
+        }
+        self.service.spreadsheets().values().batchUpdate(spreadsheetId=self.spreadsheet['spreadsheetId'],
+                                                         body=body_insides_LINK).execute()
         self.count = self.count + 1

@@ -8,7 +8,8 @@ class GetGear:
 		self.kill_id = kill_id
 		self.item_urls = []
 		self.item_urls_killer = []
-		html = requests.get(f'https://www.albiononline2d.com/en/scoreboard/events/{kill_id}')
+		self.LINK = f'https://www.albiononline2d.com/en/scoreboard/events/{kill_id}'
+		html = requests.get(LINK)
 		self.bs = BeautifulSoup(html.text, 'html.parser')
 		bs_div = self.bs.find_all('div', {'class': 'character-slots'}, '#search string')
 		killer_tag = bs_div[0]
@@ -73,6 +74,9 @@ class GetGear:
 		dirty_ip = dirty_ip_list[0]
 		clean_ip = dirty_ip[1:-1]
 		return int(clean_ip)
+
+	def get_link(self):
+		return self.LINK
 
 
 def itemlist_gear_check(getgear):

@@ -8,8 +8,8 @@ from help_msg import help_msg
 
 faxregear = FaxRegear()
 
-bot_token_file = open('DISCORD TOKEN_production.txt', 'r')
-GUILD = 'Fax'
+bot_token_file = open('DISCORD TOKEN_production.txt.txt', 'r')  # TODO: change to _production
+GUILD = 'Fax'  # TODO: change to Fax
 bot_token = bot_token_file.readline()
 client = discord.Client()
 
@@ -59,9 +59,9 @@ async def on_message(message):
                         await message.add_reaction('<:Yikes:808013096215511084>')
                     else:
                         gear_check = itemlist_gear_check(gear)
-                        if True: # gear_check[1] in ARMOR_list and gear_check[0] in H_list:
+                        if True:  # gear_check[1] in ARMOR_list and gear_check[0] in H_list:
                             if __name__ == '__main__':
-                                faxregear.push(gear.push_package(), gear.get_UTC())
+                                faxregear.push(gear.push_package(), gear.get_UTC(), gear.get_ip(), gear.get_link())
                                 await message.add_reaction('<:Godbless:808014107789754369>')
                             if gear_check[1] not in ARMOR_list:
                                 await message.add_reaction('<:Nope:816695559653818390>')
@@ -79,9 +79,9 @@ async def on_message(message):
                     await message.add_reaction('<:Yikes:808013096215511084>')
                 else:
                     gear_check = itemlist_gear_check(gear)
-                    if True: # gear_check[1] in ARMOR_list and gear_check[0] in H_list:
+                    if True:  # gear_check[1] in ARMOR_list and gear_check[0] in H_list:
                         if __name__ == '__main__':
-                            faxregear.push(gear.push_package(), gear.get_UTC())
+                            faxregear.push(gear.push_package(), gear.get_UTC(), gear.get_ip(), gear.get_link())
                             await message.add_reaction('<:Godbless:808014107789754369>')
                     if gear_check[1] not in ARMOR_list:
                         await message.add_reaction('<:Nope:816695559653818390>')
