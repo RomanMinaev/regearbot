@@ -68,7 +68,7 @@ class FaxRegear:
                             "sheetId": 0,
                             "dimension": "COLUMNS",  # COLUMNS - потому что столбец
                             "startIndex": 10,  # Столбцы нумеруются с нуля
-                            "endIndex": 11  # startIndex берётся включительно, endIndex - НЕ включительно,
+                            "endIndex": 10  # startIndex берётся включительно, endIndex - НЕ включительно,
                             # т.е. размер будет применён к столбцам в диапазоне [0,1), т.е. только к столбцу A
                         },
 
