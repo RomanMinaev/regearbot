@@ -208,3 +208,30 @@ class FaxRegear:
         self.service.spreadsheets().values().batchUpdate(spreadsheetId=self.spreadsheet['spreadsheetId'],
                                                          body=body_insides_LINK).execute()
         self.count = self.count + 1
+
+    def sort(self):
+
+        body_insides_SORT = {
+            "requests": [
+                {
+                    "sortRange": {
+                        "range": {
+                            "sheetId": 0,
+                            "startRowIndex": 0,
+                            "endRowIndex": 1000,
+                            "startColumnIndex": 0,
+                            "endColumnIndex": 9
+                        },
+                        "sortSpecs": [
+                            {
+                                "dimensionIndex": 0,
+                                "sortOrder": "ASCENDING"
+                            },
+                        ]
+                    }
+                }
+            ]
+        }
+        self.service.spreadsheets().batchUpdate(spreadsheetId=self.spreadsheet['spreadsheetId'],
+                                                body=body_insides_SORT).execute()
+        return
