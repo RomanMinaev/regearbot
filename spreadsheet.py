@@ -227,6 +227,10 @@ class FaxRegear:
                                 "dimensionIndex": 0,
                                 "sortOrder": "ASCENDING"
                             },
+                            {
+                                "dimensionIndex": 6,
+                                "sortOrder": "ASCENDING"
+                            },
                         ]
                     }
                 }
