@@ -18,7 +18,7 @@ class FaxRegear:
             'sheets': [{'properties': {'sheetType': 'GRID',
                                        'sheetId': 0,
                                        'title': 'GOD BLESS',
-                                       'gridProperties': {'hideGridlines': False, 'rowCount': 1000, 'columnCount': 11}}}]
+                                       'gridProperties': {'hideGridlines': False, 'rowCount': 1000, 'columnCount': 10}}}]
         }
         self.spreadsheet = self.service.spreadsheets().create(body=spreadsheet_body).execute()
         driveService = discovery.build('drive', 'v3', credentials=credentials)
@@ -67,8 +67,8 @@ class FaxRegear:
                         "range": {
                             "sheetId": 0,
                             "dimension": "COLUMNS",  # COLUMNS - потому что столбец
-                            "startIndex": 10,  # Столбцы нумеруются с нуля
-                            "endIndex": 11  # startIndex берётся включительно, endIndex - НЕ включительно,
+                            "startIndex": 9,  # Столбцы нумеруются с нуля
+                            "endIndex": 10  # startIndex берётся включительно, endIndex - НЕ включительно,
                             # т.е. размер будет применён к столбцам в диапазоне [0,1), т.е. только к столбцу A
                         },
 

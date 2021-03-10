@@ -58,7 +58,7 @@ async def on_message(message):
         else:
             row_number = message.content.replace('+', '')
             faxregear.tick(row_number)
-            await message.add_reaction('<:white_check_mark:819164618994745364>')
+            await message.add_reaction('✅')
 
     if message.content.startswith('!'):
         await message.add_reaction('<:Hmm:808011754029318225>')
