@@ -52,6 +52,13 @@ async def on_message(message):
             faxregear.sort()
             await message.add_reaction('<:Godbless:808014107789754369>')
 
+    if message.content.startswith('+'):
+        if discord.utils.get(username.roles, name='Mechanic') is None:
+            await message.add_reaction('<:FPepe:808012844783370270>')
+        else:
+            row_number = message.content.replace('+', '')
+            faxregear.tick(row_number)
+
     if message.content.startswith('!'):
         await message.add_reaction('<:Hmm:808011754029318225>')
         if ',' in message.content:

@@ -135,7 +135,7 @@ class FaxRegear:
                                         "startRowIndex": 0,
                                         "endRowIndex": 1000,
                                         "startColumnIndex": 6,
-                                        "endColumnIndex": 9
+                                        "endColumnIndex": 10
                                     },
                                 "fields": "userEnteredFormat"
                             }
@@ -238,4 +238,20 @@ class FaxRegear:
         }
         self.service.spreadsheets().batchUpdate(spreadsheetId=self.spreadsheet['spreadsheetId'],
                                                 body=body_insides_SORT).execute()
+
+    def tick(self, row):
+        body_insides = {
+            "valueInputOption": 'USER_ENTERED',
+            "data": [
+                {
+                    "range": f'J{row}:J{row}',
+                    "majorDimension": "ROWS",
+                    "values": [
+                        [f'=IMAGE("https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flat_tick_icon.svg/1200px-Flat_tick_icon.svg.png")']
+                    ]
+                }
+            ]
+        }
+        self.service.spreadsheets().values().batchUpdate(spreadsheetId=self.spreadsheet['spreadsheetId'],
+                                                         body=body_insides).execute()
         return

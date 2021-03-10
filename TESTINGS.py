@@ -78,3 +78,5 @@ getgear1 = GetGear('201833197')
 print(getgear1.item_urls)
 print()
 print(getgear1.item_urls_killer)
+
+# https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flat_tick_icon.svg/1200px-Flat_tick_icon.svg.png
