@@ -5,7 +5,7 @@ from zvzbuilddict import ARMOR_list
 from zvzbuilddict import H_list
 from parse import itemlist_gear_check
 from help_msg import help_msg
-
+import requests
 faxregear = FaxRegear()
 
 bot_token_file = open('DISCORD TOKEN_production.txt', 'r')  # TODO: change to _production
@@ -54,6 +54,9 @@ async def on_message(message):
                     gear = GetGear(ID.replace('!', ''))
                 except IndexError:
                     await message.add_reaction('<:FPepe:808012844783370270>')
+                except requests.exceptions.ReadTimeout:
+                    await message.add_reaction('<:FPepe:808012844783370270>')
+
                 else:
                     if gear.get_ip() < 1300:
                         await message.add_reaction('<:Yikes:808013096215511084>')
@@ -73,6 +76,8 @@ async def on_message(message):
             try:
                 gear = GetGear(ID.replace('!', ''))
             except IndexError:
+                await message.add_reaction('<:FPepe:808012844783370270>')
+            except requests.exceptions.ReadTimeout:
                 await message.add_reaction('<:FPepe:808012844783370270>')
             else:
                 if gear.get_ip() < 1300:
