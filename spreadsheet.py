@@ -240,7 +240,7 @@ class FaxRegear:
                             "startRowIndex": 0,
                             "endRowIndex": 1000,
                             "startColumnIndex": 0,
-                            "endColumnIndex": 9
+                            "endColumnIndex": 10
                         },
                         "sortSpecs": [
                             {
