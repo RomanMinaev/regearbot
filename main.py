@@ -1,5 +1,6 @@
 import discord
 from parse import GetGear
+from parse import GetGuildmembers
 from spreadsheet import FaxRegear
 from zvzbuilddict import ARMOR_list
 from zvzbuilddict import H_list
@@ -43,6 +44,13 @@ async def on_message(message):
             await message.add_reaction('<:FPepe:808012844783370270>')
         else:
             faxregear = FaxRegear()
+            await message.add_reaction('<:Godbless:808014107789754369>')
+
+    if message.content.startswith('..members'):
+        if discord.utils.get(username.roles, name='Mechanic') is None:
+            await message.add_reaction('<:FPepe:808012844783370270>')
+        else:
+            GetGuildmembers()
             await message.add_reaction('<:Godbless:808014107789754369>')
 
     if message.content.startswith('..sort'):

@@ -1,6 +1,7 @@
 import requests
 import re
 from bs4 import BeautifulSoup
+import json
 
 
 class GetGear:
@@ -100,3 +101,54 @@ def itemlist_gear_check(getgear):
 		if 'MAIN_' in i:
 			gear_check_list.append(i)
 	return gear_check_list
+
+
+class GetGuildmembers:
+	def __init__(self):
+		html = requests.get(
+			'https://gameinfo.albiononline.com/api/gameinfo/guilds/6g1WhBpsQ_W2eldCMtuTrw/members')  # guild Fax
+		bs = BeautifulSoup(html.text, 'html.parser')
+		names = re.findall(r'(?<="Name":")\S+?(?=","Id)', str(bs))
+		IDs = re.findall(r'(?<="Id":")\S+?(?=","Gui)', str(bs))
+		number_of_players = len(names)
+		player_dict = {}
+		for number in range(number_of_players):
+			player_dict[names[number]] = IDs[number]
+
+		data = {'players': [player_dict]}
+		with open('guildmembers.json', 'w') as dump:
+			json.dump(data, dump, indent=4)
+
+
+class GetLastEvents:
+	def __init__(self):
+		with open('guildmembers.json', 'r') as data:
+			datapack2 = json.load(data)
+			players_data_dict = datapack2['players']
+			players_data = players_data_dict[0]
+
+		players_list = list(dict.keys(players_data))
+		players_ID_list = list(dict.values(players_data))
+
+		EventId_list = []
+		last_EventId_list = []
+		for number in range(len(players_list)):
+			html = requests.get(
+				f'https://gameinfo.albiononline.com/api/gameinfo/players/{players_ID_list[number]}/deaths')  # guild Fax
+			bs = BeautifulSoup(html.text, 'html.parser')
+			event_ID = re.findall(r'(?<="EventId":)\S+?(?=,"Time)', str(bs))
+			try:
+				last_event_ID = event_ID[0]
+			except IndexError:
+				last_event_ID = ''
+			EventId_list.append(event_ID)
+			last_EventId_list.append(last_event_ID)
+		event_dict = {}
+		last_event_dict = {}
+		for number2 in range(len(players_list)):
+			event_dict[players_list[number2]] = EventId_list[number2]
+			last_event_dict[players_list[number2]] = last_EventId_list[number2]
+		data1 = {f'events': [event_dict]}
+		data2 = {f'last_event': [last_event_dict]}
+		with open('lastevent.json', 'w') as dump:
+			json.dump(data2, dump, indent=4)
