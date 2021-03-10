@@ -18,7 +18,7 @@ class FaxRegear:
             'sheets': [{'properties': {'sheetType': 'GRID',
                                        'sheetId': 0,
                                        'title': 'GOD BLESS',
-                                       'gridProperties': {'hideGridlines': False, 'rowCount': 1000, 'columnCount': 9}}}]
+                                       'gridProperties': {'hideGridlines': False, 'rowCount': 1000, 'columnCount': 10}}}]
         }
         self.spreadsheet = self.service.spreadsheets().create(body=spreadsheet_body).execute()
         driveService = discovery.build('drive', 'v3', credentials=credentials)
