@@ -52,6 +52,26 @@ class FaxRegear:
                             "endIndex": 6  # startIndex берётся включительно, endIndex - НЕ включительно,
                             # т.е. размер будет применён к столбцам в диапазоне [0,1), т.е. только к столбцу A
                         },
+
+                        "properties": {
+                            "pixelSize": 128  # размер в пикселях
+                        },
+                        "fields": "pixelSize"  # нужно задать только pixelSize и не трогать другие параметры столбца
+                    }
+                },
+        }).execute()
+        self.service.spreadsheets().batchUpdate(spreadsheetId=self.spreadsheet['spreadsheetId'], body={
+            "requests":
+                {
+                    "updateDimensionProperties": {
+                        "range": {
+                            "sheetId": 0,
+                            "dimension": "COLUMNS",  # COLUMNS - потому что столбец
+                            "startIndex": 10,  # Столбцы нумеруются с нуля
+                            "endIndex": 11  # startIndex берётся включительно, endIndex - НЕ включительно,
+                            # т.е. размер будет применён к столбцам в диапазоне [0,1), т.е. только к столбцу A
+                        },
+
                         "properties": {
                             "pixelSize": 128  # размер в пикселях
                         },
