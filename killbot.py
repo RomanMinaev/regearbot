@@ -25,7 +25,7 @@ async def on_message(message):
 	if message.content.startswith('..hello'):
 		await channel.send('Hello!')
 
-	if message.content.startswith('..init'):
+	if message.content.startswith('..init_killboard'):
 		if discord.utils.get(username.roles, name='Mechanic') is None:
 			await message.add_reaction('<:FPepe:808012844783370270>')
 		else:
