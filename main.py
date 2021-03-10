@@ -57,7 +57,9 @@ async def on_message(message):
             await message.add_reaction('<:FPepe:808012844783370270>')
         else:
             row_number = message.content.replace('+', '')
-            faxregear.tick(row_number)
+            row_number_list = row_number.split(' ')
+            faxregear.tick(row_number_list[0])
+            faxregear.chest_num(row_number_list[0], row_number_list[1])
             await message.add_reaction('✅')
 
     if message.content.startswith('!'):

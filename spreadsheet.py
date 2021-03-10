@@ -18,7 +18,7 @@ class FaxRegear:
             'sheets': [{'properties': {'sheetType': 'GRID',
                                        'sheetId': 0,
                                        'title': 'GOD BLESS',
-                                       'gridProperties': {'hideGridlines': False, 'rowCount': 1000, 'columnCount': 10}}}]
+                                       'gridProperties': {'hideGridlines': False, 'rowCount': 1000, 'columnCount': 11}}}]
         }
         self.spreadsheet = self.service.spreadsheets().create(body=spreadsheet_body).execute()
         driveService = discovery.build('drive', 'v3', credentials=credentials)
@@ -68,7 +68,7 @@ class FaxRegear:
                             "sheetId": 0,
                             "dimension": "COLUMNS",  # COLUMNS - потому что столбец
                             "startIndex": 9,  # Столбцы нумеруются с нуля
-                            "endIndex": 10  # startIndex берётся включительно, endIndex - НЕ включительно,
+                            "endIndex": 12  # startIndex берётся включительно, endIndex - НЕ включительно,
                             # т.е. размер будет применён к столбцам в диапазоне [0,1), т.е. только к столбцу A
                         },
 
@@ -155,7 +155,7 @@ class FaxRegear:
                                         "startRowIndex": 0,
                                         "endRowIndex": 1000,
                                         "startColumnIndex": 6,
-                                        "endColumnIndex": 10
+                                        "endColumnIndex": 12
                                     },
                                 "fields": "userEnteredFormat"
                             }
@@ -240,7 +240,7 @@ class FaxRegear:
                             "startRowIndex": 0,
                             "endRowIndex": 1000,
                             "startColumnIndex": 0,
-                            "endColumnIndex": 10
+                            "endColumnIndex": 12
                         },
                         "sortSpecs": [
                             {
@@ -268,6 +268,23 @@ class FaxRegear:
                     "majorDimension": "ROWS",
                     "values": [
                         [f'=IMAGE("https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flat_tick_icon.svg/1200px-Flat_tick_icon.svg.png")']
+                    ]
+                }
+            ]
+        }
+        self.service.spreadsheets().values().batchUpdate(spreadsheetId=self.spreadsheet['spreadsheetId'],
+                                                         body=body_insides).execute()
+        return
+
+    def chest_num(self, row, number):
+        body_insides = {
+            "valueInputOption": 'USER_ENTERED',
+            "data": [
+                {
+                    "range": f'K{row}:K{row}',
+                    "majorDimension": "ROWS",
+                    "values": [
+                        [f'Chest #{number}']
                     ]
                 }
             ]
