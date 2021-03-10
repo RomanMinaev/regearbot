@@ -9,7 +9,7 @@ class GetGear:
 		self.item_urls = []
 		self.item_urls_killer = []
 		self.LINK = f'https://www.albiononline2d.com/en/scoreboard/events/{kill_id}'
-		html = requests.get(self.LINK, timeout=15)
+		html = requests.get(self.LINK, timeout=20)
 		self.bs = BeautifulSoup(html.text, 'html.parser')
 		bs_div = self.bs.find_all('div', {'class': 'character-slots'}, '#search string')
 		killer_tag = bs_div[0]
