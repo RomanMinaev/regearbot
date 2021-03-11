@@ -146,7 +146,10 @@ class GetLastEvents:
 		event_dict = {}
 		last_event_dict = {}
 		for number2 in range(len(players_list)):
-			event_dict[players_list[number2]] = EventId_list[number2]
+			try:
+				event_dict[players_list[number2]] = EventId_list[number2]
+			except IndexError:
+				continue
 			if last_EventId_list[number2] != '':
 				try:
 					last_event_dict[players_list[number2]] = last_EventId_list[number2]
