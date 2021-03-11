@@ -155,20 +155,13 @@ class GetLastEvents:
 
 
 def get_title(EventId):
-	regex_respond = re.findall(f"(?<=', ')\S+(?=')", str(EventId))
-	try:
-		str_regex_respond = regex_respond[0]
-	except IndexError:
-		pass
-	else:
-		print(str_regex_respond)
 		while True:
 			try:
-				html = requests.get(f'https://www.albiononline2d.com/en/scoreboard/events/{str_regex_respond}', timeout=20)
+				html = requests.get(f'https://www.albiononline2d.com/en/scoreboard/events/{EventId}', timeout=20)
 			except RuntimeError:
 				continue
 			break
 		bs = BeautifulSoup(html.text, 'html.parser')
 		bs_h1 = bs.find_all('h1', {'class': 'page-title'}, '#search string')
 		title = re.findall(f'(?<=>).+(?=<)', str(bs_h1))
-		return title
+		return title[0]
