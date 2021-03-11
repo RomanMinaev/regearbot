@@ -2,6 +2,7 @@ import discord
 import json
 import asyncio
 import re
+from parse import get_title
 
 bot_token_file = open('DISCORD TOKEN_production.txt', 'r')  # TODO: change to _production
 GUILD = 'Fax'  # TODO: change to Fax
@@ -58,8 +59,12 @@ async def on_message(message):
 						except IndexError:
 							pass
 						else:
-							print(str_regex_respond)
-							await channel.send(f'{str_regex_respond}')
+							title = get_title(str_regex_respond)
+							embed = discord.Embed(
+								title=title,
+								color=discord.Color.dark_red())
+							embed.add_field(name='EventId', value=str_regex_respond)
+							await channel.send(embed=embed)
 
 
 client.run(bot_token)

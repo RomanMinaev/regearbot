@@ -16,3 +16,13 @@ for respond in responds:
 		pass
 	else:
 		print(str_regex_respond)
+		while True:
+			try:
+				html = requests.get(f'https://www.albiononline2d.com/en/scoreboard/events/{str_regex_respond}', timeout=20)
+			except RuntimeError:
+				continue
+			break
+		bs = BeautifulSoup(html.text, 'html.parser')
+		bs_h1 = bs.find_all('h1', {'class': 'page-title'}, '#search string')
+		title = re.findall(f'(?<=>).+(?=<)', str(bs_h1))
+		print(title)
