@@ -64,7 +64,7 @@ async def on_message(message):
 								embed = discord.Embed(
 									title=title,
 									color=discord.Color.dark_red())
-								embed.add_field(name='EventId', value=to_send)
+								embed.add_field(name='EventId', value=str_regex_respond)
 								await channel.send(embed=embed)
 					except IndexError:
 						pass
