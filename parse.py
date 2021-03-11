@@ -2,6 +2,7 @@ import requests
 import re
 from bs4 import BeautifulSoup
 import json
+from requests import ReadTimeout
 
 
 class GetGear:
@@ -165,6 +166,8 @@ def get_title(EventId):
 		try:
 			html = requests.get(f'https://www.albiononline2d.com/en/scoreboard/events/{EventId}', timeout=20)
 		except RuntimeError:
+			continue
+		except ReadTimeout:
 			continue
 		break
 	bs = BeautifulSoup(html.text, 'html.parser')
