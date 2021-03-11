@@ -51,20 +51,24 @@ async def on_message(message):
 					last_event2_items = list(last_event2.items())
 
 				for i in range(len(last_event1_items)):
-					if last_event2_items[i] != last_event1_items[i]:
-						to_send = last_event2_items[i]
-						regex_respond = re.findall(f"(?<=', ')\S+(?=')", str(to_send))
-						try:
-							str_regex_respond = regex_respond[0]
-						except IndexError:
-							pass
-						else:
-							title = get_title(str_regex_respond)
-							embed = discord.Embed(
-								title=title,
-								color=discord.Color.dark_red())
-							embed.add_field(name='EventId', value=to_send)
-							await channel.send(embed=embed)
+					try:
+						if last_event2_items[i] != last_event1_items[i]:
+							to_send = last_event2_items[i]
+							regex_respond = re.findall(f"(?<=', ')\S+(?=')", str(to_send))
+							try:
+								str_regex_respond = regex_respond[0]
+							except IndexError:
+								pass
+							else:
+								title = get_title(str_regex_respond)
+								embed = discord.Embed(
+									title=title,
+									color=discord.Color.dark_red())
+								embed.add_field(name='EventId', value=to_send)
+								await channel.send(embed=embed)
+					except IndexError:
+						pass
+
 
 
 client.run(bot_token)
