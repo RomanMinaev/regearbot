@@ -69,6 +69,4 @@ async def on_message(message):
 					except IndexError:
 						pass
 
-
-
 client.run(bot_token)

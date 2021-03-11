@@ -140,7 +140,7 @@ class GetLastEvents:
 			try:
 				last_event_ID = event_ID[0]
 			except IndexError:
-				last_event_ID = ''
+				continue
 			EventId_list.append(event_ID)
 			last_EventId_list.append(last_event_ID)
 		event_dict = {}
@@ -149,20 +149,19 @@ class GetLastEvents:
 			event_dict[players_list[number2]] = EventId_list[number2]
 			if last_EventId_list[number2] != '':
 				last_event_dict[players_list[number2]] = last_EventId_list[number2]
-		data1 = {f'events': [event_dict]}
 		data2 = {f'last_event': [last_event_dict]}
 		with open('lastevent.json', 'w') as dump:
 			json.dump(data2, dump, indent=4)
 
 
 def get_title(EventId):
-		while True:
-			try:
-				html = requests.get(f'https://www.albiononline2d.com/en/scoreboard/events/{EventId}', timeout=20)
-			except RuntimeError:
-				continue
-			break
-		bs = BeautifulSoup(html.text, 'html.parser')
-		bs_h1 = bs.find_all('h1', {'class': 'page-title'}, '#search string')
-		title = re.findall(f'(?<=>).+(?=<)', str(bs_h1))
-		return title[0]
+	while True:
+		try:
+			html = requests.get(f'https://www.albiononline2d.com/en/scoreboard/events/{EventId}', timeout=20)
+		except RuntimeError:
+			continue
+		break
+	bs = BeautifulSoup(html.text, 'html.parser')
+	bs_h1 = bs.find_all('h1', {'class': 'page-title'}, '#search string')
+	title = re.findall(f'(?<=>).+(?=<)', str(bs_h1))
+	return title[0]
