@@ -147,7 +147,8 @@ class GetLastEvents:
 		last_event_dict = {}
 		for number2 in range(len(players_list)):
 			event_dict[players_list[number2]] = EventId_list[number2]
-			last_event_dict[players_list[number2]] = last_EventId_list[number2]
+			if last_EventId_list[number2] != '':
+				last_event_dict[players_list[number2]] = last_EventId_list[number2]
 		data1 = {f'events': [event_dict]}
 		data2 = {f'last_event': [last_event_dict]}
 		with open('lastevent.json', 'w') as dump:

@@ -24,10 +24,10 @@ async def on_message(message):
 		return
 
 	channel = message.channel
-	if message.content.startswith('..hello_killbot'):
+	if message.content.startswith('..killbot_hello'):
 		await channel.send('Hello!')
 
-	if message.content.startswith('..init_killboard'):
+	if message.content.startswith('..killbot_init'):
 		if discord.utils.get(username.roles, name='Mechanic') is None:
 			await message.add_reaction('<:FPepe:808012844783370270>')
 		else:
@@ -63,7 +63,7 @@ async def on_message(message):
 							embed = discord.Embed(
 								title=title,
 								color=discord.Color.dark_red())
-							embed.add_field(name='EventId', value=str_regex_respond)
+							embed.add_field(name='EventId', value=to_send)
 							await channel.send(embed=embed)
 
 
