@@ -1,6 +1,7 @@
 import discord
 import json
 import asyncio
+import re
 
 bot_token_file = open('DISCORD TOKEN_production.txt', 'r')  # TODO: change to _production
 GUILD = 'Fax'  # TODO: change to Fax
@@ -51,8 +52,14 @@ async def on_message(message):
 				for i in range(len(last_event1_items)):
 					if last_event2_items[i] != last_event1_items[i]:
 						to_send = last_event2_items[i]
-						print(f'in if {to_send}')
-						await channel.send(f'{to_send}')
+						regex_respond = re.findall(f"(?<=', ')\S+(?=')", str(to_send))
+						try:
+							str_regex_respond = regex_respond[0]
+						except IndexError:
+							pass
+						else:
+							print(str_regex_respond)
+							await channel.send(f'{str_regex_respond}')
 
 
 client.run(bot_token)
