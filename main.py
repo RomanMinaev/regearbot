@@ -1,18 +1,11 @@
 import discord
-from parse import GetGear
-from parse import GetGuildmembers
-from spreadsheet import FaxRegear
-from zvzbuilddict import ARMOR_list
-from zvzbuilddict import H_list
-from parse import itemlist_gear_check
-from help_msg import help_msg
-import requests
-faxregear = FaxRegear()
+from regear_functions import Spreadsheet
 
-bot_token_file = open('DISCORD TOKEN_production.txt', 'r')  # TODO: change to _production
-GUILD = 'Fax'  # TODO: change to Fax
+bot_token_file = open('DISCORD TOKEN.txt', 'r')  # TODO: change to _production
+GUILD = 'SuSliK'  # TODO: change to Fax
 bot_token = bot_token_file.readline()
 client = discord.Client()
+sh = Spreadsheet()
 
 
 @client.event
@@ -24,98 +17,116 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    global faxregear
+    global sh
     username = message.author
     if message.author == client.user:
         return
 
     channel = message.channel
-    if message.content.startswith('..hello'):
-        await channel.send('Hello!')
 
-    if message.content.startswith('..help'):
-        await channel.send(help_msg)
-
-    if message.content.startswith('..URL'):
-        await channel.send(faxregear.get_url())
-
-    if message.content.startswith('..init'):
+    if message.content.startswith('..init'):  # creates new spreadsheet
         if discord.utils.get(username.roles, name='Mechanic') is None:
-            await message.add_reaction('<:FPepe:808012844783370270>')
+            await message.add_reaction('❌')
+            embed_msg = discord.Embed(
+                title='**Error**',
+                description='**..init** requires **Mechanic** role to run.',
+                color=discord.Color.red()
+            )
+            await channel.send(embed=embed_msg)
         else:
-            faxregear = FaxRegear()
-            await message.add_reaction('<:Godbless:808014107789754369>')
-
-    if message.content.startswith('..members'):
-        if discord.utils.get(username.roles, name='Mechanic') is None:
-            await message.add_reaction('<:FPepe:808012844783370270>')
-        else:
-            GetGuildmembers()
-            await message.add_reaction('<:Godbless:808014107789754369>')
+            await message.add_reaction('⏲')
+            sh = Spreadsheet()
+            await message.add_reaction('✅')
+            embed_msg = discord.Embed(
+                title='**Success (click me)**',
+                description='New spreadsheet was generated!',
+                color=discord.Color.green(),
+                url=sh.url()
+            )
+            await channel.send(embed=embed_msg)
 
     if message.content.startswith('..sort'):
         if discord.utils.get(username.roles, name='Mechanic') is None:
-            await message.add_reaction('<:FPepe:808012844783370270>')
+            await message.add_reaction('❌')
+            embed_msg = discord.Embed(
+                title='**Error**',
+                description='**..sort** requires **Mechanic** role to run.',
+                color=discord.Color.red()
+            )
+            await channel.send(embed=embed_msg)
         else:
-            faxregear.sort()
-            await message.add_reaction('<:Godbless:808014107789754369>')
+            sh.sort()
+            await message.add_reaction('✅')
+
+    if message.content.startswith('..URL') or message.content.startswith('..url'):
+        embed_msg = discord.Embed(
+            title='**URL (click me)**',
+            description='URL to a current spreadsheet.',
+            color=discord.Color.green(),
+            url=sh.url()
+        )
+        await channel.send(embed=embed_msg)
+
+    if message.content.startswith('!'):
+        await message.add_reaction('⏲')
+        EventId = message.content[1:]
+        try:
+            sh.push(EventId)
+            await message.add_reaction('✅')
+        except UnboundLocalError:
+            embed_msg = discord.Embed(
+                title='**Error**',
+                description='You need to **..init** first.\n'
+                            '**..init** requires **Mechanic** role to run.',
+                color=discord.Color.red()
+            )
+            await channel.send(embed=embed_msg)
 
     if message.content.startswith('+'):
         if discord.utils.get(username.roles, name='Mechanic') is None:
-            await message.add_reaction('<:FPepe:808012844783370270>')
+            await message.add_reaction('❌')
+            embed_msg = discord.Embed(
+                title='**Error**',
+                description='**+** requires **Mechanic** role to run.',
+                color=discord.Color.red()
+            )
+            await channel.send(embed=embed_msg)
         else:
             row_number = message.content.replace('+', '')
             row_number_list = row_number.split(' ')
-            faxregear.tick(row_number_list[0])
-            faxregear.chest_num(row_number_list[0], row_number_list[1])
-            await message.add_reaction('✅')
-
-    if message.content.startswith('!'):
-        await message.add_reaction('<:Hmm:808011754029318225>')
-        if ',' in message.content:
-            ID_list = message.content.split(',')
-            for ID in ID_list:
-                try:
-                    gear = GetGear(ID.replace('!', ''))
-                except IndexError:
-                    await message.add_reaction('<:FPepe:808012844783370270>')
-                except requests.exceptions.ReadTimeout:
-                    await message.add_reaction('<:FPepe:808012844783370270>')
-
-                else:
-                    if gear.get_ip() < 1300:
-                        await message.add_reaction('<:Yikes:808013096215511084>')
-                    else:
-                        gear_check = itemlist_gear_check(gear)
-                        if True:  # gear_check[1] in ARMOR_list and gear_check[0] in H_list:
-                            if __name__ == '__main__':
-                                faxregear.push(gear.push_package(), gear.get_UTC(), f'{gear.get_ip()} IP', f'=HYPERLINK("{gear.get_link()}","AO2D")')
-                                await message.add_reaction('<:Godbless:808014107789754369>')
-                            if gear_check[1] not in ARMOR_list:
-                                await message.add_reaction('<:Nope:816695559653818390>')
-                            if gear_check[0] not in H_list:
-                                await message.add_reaction('<:Sayad:808011258006863903>')  # 😂
-
-        else:
-            ID = message.content
-            try:
-                gear = GetGear(ID.replace('!', ''))
-            except IndexError:
-                await message.add_reaction('<:FPepe:808012844783370270>')
-            except requests.exceptions.ReadTimeout:
-                await message.add_reaction('<:FPepe:808012844783370270>')
+            if row_number_list[0] == '1':
+                await message.add_reaction('❌')
+                embed_msg = discord.Embed(
+                    title='**Error**',
+                    description='You are trying to **tick** a title cell.',
+                    color=discord.Color.red()
+                )
+                await channel.send(embed=embed_msg)
             else:
-                if gear.get_ip() < 1300:
-                    await message.add_reaction('<:Yikes:808013096215511084>')
-                else:
-                    gear_check = itemlist_gear_check(gear)
-                    if True:  # gear_check[1] in ARMOR_list and gear_check[0] in H_list:
-                        if __name__ == '__main__':
-                            faxregear.push(gear.push_package(), gear.get_UTC(), f'{gear.get_ip()} IP', f'=HYPERLINK("{gear.get_link()}","AO2D")')
-                            await message.add_reaction('<:Godbless:808014107789754369>')
-                    if gear_check[1] not in ARMOR_list:
-                        await message.add_reaction('<:Nope:816695559653818390>')
-                    if gear_check[0] not in H_list:
-                        await message.add_reaction('<:Sayad:808011258006863903>')
+                sh.tick(row_number_list[0], row_number_list[1])
+                await message.add_reaction('✅')
+
+    if message.content.startswith('..help'):
+        embed_msg = discord.Embed(
+            title='Available commands:',
+            description='**..help** - Shows this message.\n'
+                        '\n'
+                        '**..init** - Creates new spreadsheet.\n'
+                        'Requires **Mechanic** role.\n'
+                        '\n'
+                        '**..sort** - Sorts spreadsheet.\n'
+                        'Requires **Mechanic** role.\n'
+                        '\n'
+                        '**..url** or **..URL** - Sends URL to a current spreadsheet.\n'
+                        '\n'
+                        '**!EventId** - Pushes regear request to spreadsheet.\n'
+                        '\n'
+                        '**+ROW_NUM CHEST_NUM** - Ticks a row and writes assigned chest number\n',
+            color=discord.Color.green()
+        )
+        embed_msg.set_image(url='https://yt3.ggpht.com/ooDmRtyMCL1W6SJyqsPRoJD6ag63CqYGD0FPMDmGhvvga4'
+                                '6HrHgeCiBCvMxl-OpBkagBBYShfA=w640-fcrop64=1,32b75a57cd48a5a8-nd-c0xffffffff-rj-k-no')
+        embed_msg.set_footer(text='OopsieDoopsie#0412')
+        await channel.send(embed=embed_msg)
 
 client.run(bot_token)
