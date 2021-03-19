@@ -525,7 +525,7 @@ class Spreadsheet:
 						"sortRange": {
 							"range": {
 								"sheetId": 0,
-								"startRowIndex": 0,
+								"startRowIndex": 1,
 								"endRowIndex": 1000,
 								"startColumnIndex": 0,
 								"endColumnIndex": 14
