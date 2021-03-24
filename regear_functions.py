@@ -13,7 +13,10 @@ def get_kill(eventId):
 	"""
 	link = \
 		'https://gameinfo.albiononline.com/api/gameinfo/events/' + eventId
-	html = get(link, timeout=10)
+	while True:
+		html = get(link)
+		if html is not None:
+			break
 
 	with open('out.json', 'w') as data:
 		json.dump(html.json(), data, indent=4)
@@ -391,6 +394,11 @@ class Spreadsheet:
 		part_two = '")'
 		part_three = '=HYPERLINK("https://www.albiononline2d.com/en/scoreboard/events/'
 		part_four = '","AO2D")'
+
+		dublicate_check = self.service.spreadsheets().values().batchGet(spreadsheetId=self.spreadsheet['spreadsheetId'], majorDimension='COLUMNS', ranges='K1:K1000', valueRenderOption='FORMULA').execute()
+		comprehended_check = [k.split(f'/')[6].split('"')[0] for k in dublicate_check['valueRanges'][0]['values'][0][1:]]
+		if eventId in comprehended_check:
+			return print(f'{eventId} already exists.')
 		self.service.spreadsheets().values().batchUpdate(
 			spreadsheetId=self.spreadsheet['spreadsheetId'],
 			body={
@@ -587,3 +595,5 @@ class Spreadsheet:
 				]
 			}
 		).execute()
+
+

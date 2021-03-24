@@ -2,7 +2,7 @@ import discord
 from regear_functions import Spreadsheet
 
 bot_token_file = open('DISCORD TOKEN.txt', 'r')
-GUILD = 'Fax'
+GUILD = 'SuSliK'
 bot_token = bot_token_file.readline()
 client = discord.Client()
 sh = Spreadsheet()
